@@ -5,11 +5,11 @@
 call{T}(κ::Kernel{T}, x::T, y::T) = kernel(κ, x, y)
 call{T}(κ::Kernel{T}, x::AbstractArray{T}, y::AbstractArray{T}) = kernel(κ, x, y)
 
-kernel{T}(κ::StandardKernel{T}, x::T, y::T) = pairwise(κ, x, y)
-kernel{T}(κ::StandardKernel{T}, x::AbstractArray{T}, y::AbstractArray{T}) = pairwise(κ, x, y)
+kernel{T}(κ::StandardKernel{T}, x::T, y) = pairwise(κ, x, y)
+kernel{T}(κ::StandardKernel{T}, x::AbstractArray{T}, y::AbstractArray) = pairwise(κ, x, y)
 
-kernel{T}(κ::KernelComposition{T}, x::T, y::T) = phi(κ.phi, pairwise(κ.kappa, x, y))
-function kernel{T}(κ::KernelComposition{T}, x::AbstractArray{T}, y::AbstractArray{T})
+kernel{T}(κ::KernelComposition{T}, x::T, y) = phi(κ.phi, pairwise(κ.kappa, x, y))
+function kernel{T}(κ::KernelComposition{T}, x::AbstractArray{T}, y::AbstractArray)
     phi(κ.phi, pairwise(κ.kappa, x, y))
 end
 
