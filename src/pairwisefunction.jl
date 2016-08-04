@@ -3,8 +3,8 @@
 ===================================================================================================#
 
 # These two functions may be used to define any kernel
-pairwise{T}(κ::PairwiseKernel{T}, x::T, y::T) = phi(κ, x, y)
-function unsafe_pairwise{T}(κ::PairwiseKernel{T}, x::AbstractArray{T}, y::AbstractArray{T})
+pairwise{T}(κ::PairwiseKernel{T}, x::T, y) = phi(κ, x, y)
+function unsafe_pairwise{T}(κ::PairwiseKernel{T}, x::AbstractArray{T}, y::AbstractArray)
     s = zero(T)
     @inbounds for i in eachindex(x)
         s += phi(κ, x[i], y[i])
@@ -12,7 +12,7 @@ function unsafe_pairwise{T}(κ::PairwiseKernel{T}, x::AbstractArray{T}, y::Abstr
     s
 end
 
-function pairwise{T}(κ::PairwiseKernel{T}, x::AbstractArray{T}, y::AbstractArray{T})
+function pairwise{T}(κ::PairwiseKernel{T}, x::AbstractArray{T}, y::AbstractArray)
     length(x) == length(y) || throw(DimensionMismatch("Arrays x and y must have the same length."))
     unsafe_pairwise(κ, x, y)
 end
