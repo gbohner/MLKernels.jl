@@ -32,7 +32,7 @@ doc"SquaredDistanceKernel() = (x-y)ᵀ(x-y)"
 immutable SquaredDistanceKernel{T<:AbstractFloat} <: NonNegNegDefAdditiveKernel{T} end
 SquaredDistanceKernel() = SquaredDistanceKernel{Float64}()
 convert{T}(::Type{SquaredDistanceKernel{T}}, ::SquaredDistanceKernel) = SquaredDistanceKernel{T}()
-@inline phi{T<:AbstractFloat}(κ::SquaredDistanceKernel{T}, x::T, y::T) = (x-y)^2
+@inline phi{T<:AbstractFloat}(κ::SquaredDistanceKernel{T}, x::T, y) = (x-y)^2
 
 
 doc"SineSquaredKernel(p) = Σⱼsin²(p(xⱼ-yⱼ))"
@@ -43,14 +43,14 @@ immutable SineSquaredKernel{T<:AbstractFloat} <: NonNegNegDefAdditiveKernel{T}
     )
 end
 @outer_constructor(SineSquaredKernel, (π,))
-@inline phi{T<:AbstractFloat}(κ::SineSquaredKernel{T}, x::T, y::T) = sin(κ.p*(x-y))^2
+@inline phi{T<:AbstractFloat}(κ::SineSquaredKernel{T}, x::T, y) = sin(κ.p*(x-y))^2
 
 
 doc"ChiSquaredKernel() = Σⱼ(xⱼ-yⱼ)²/(xⱼ+yⱼ)"
 immutable ChiSquaredKernel{T<:AbstractFloat} <: NonNegNegDefAdditiveKernel{T} end
 ChiSquaredKernel() = ChiSquaredKernel{Float64}()
 convert{T}(::Type{ChiSquaredKernel{T}}, ::ChiSquaredKernel) = ChiSquaredKernel{T}()
-@inline function phi{T<:AbstractFloat}(κ::ChiSquaredKernel{T}, x::T, y::T)
+@inline function phi{T<:AbstractFloat}(κ::ChiSquaredKernel{T}, x::T, y)
     (x == y == zero(T)) ? zero(T) : (x-y)^2/(x+y)
 end
 
@@ -61,5 +61,5 @@ doc"ScalarProductKernel() = xᵀy"
 immutable ScalarProductKernel{T<:AbstractFloat} <: AdditiveKernel{T} end
 ScalarProductKernel() = ScalarProductKernel{Float64}()
 convert{T}(::Type{ScalarProductKernel{T}}, ::ScalarProductKernel) = ScalarProductKernel{T}()
-@inline phi{T<:AbstractFloat}(κ::ScalarProductKernel{T}, x::T, y::T) = x*y
+@inline phi{T<:AbstractFloat}(κ::ScalarProductKernel{T}, x::T, y) = x*y
 @inline ismercer(::ScalarProductKernel) = true

@@ -38,7 +38,7 @@ function convert{T<:AbstractFloat}(::Type{KernelAffinity{T}}, ψ::KernelAffinity
     KernelAffinity(convert(T, ψ.a.value), convert(T, ψ.c.value), convert(Kernel{T}, ψ.kappa))
 end
 
-@inline phi{T<:AbstractFloat}(ψ::KernelAffinity{T}, z::T) = ψ.a*z + ψ.c
+@inline phi{T<:AbstractFloat}(ψ::KernelAffinity{T}, z) = ψ.a*z + ψ.c
 
 
 # Operations
